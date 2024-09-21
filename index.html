@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta tags and title -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rostin Maafi - Creative Portfolio</title>
+
+    <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <!-- Custom Styles -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Space+Mono&display=swap');
 
+        /* Global Styles */
         body, html {
             margin: 0;
             padding: 0;
@@ -16,7 +23,10 @@
             color: #e0e0e0;
             line-height: 1.6;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
+
+        /* Background Animation */
         #canvas-container {
             position: fixed;
             top: 0;
@@ -25,11 +35,15 @@
             height: 100%;
             z-index: -1;
         }
+
+        /* Container */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
+
+        /* Header and Navigation */
         header {
             background-color: rgba(10, 10, 10, 0.8);
             backdrop-filter: blur(10px);
@@ -39,12 +53,14 @@
             right: 0;
             z-index: 1000;
         }
+
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px 0;
         }
+
         nav a {
             color: #e0e0e0;
             text-decoration: none;
@@ -53,12 +69,16 @@
             transition: color 0.3s ease;
             margin-left: 20px;
         }
+
         nav a:hover {
             color: #00ff00;
         }
+
+        /* Main Content */
         main {
-            padding-top: 60px;
+            padding-top: 80px;
         }
+
         section {
             padding: 100px 0;
             min-height: 100vh;
@@ -67,31 +87,71 @@
             justify-content: center;
             position: relative;
         }
+
+        /* Headings and Text */
         h1, h2 {
             font-weight: 700;
             margin-bottom: 20px;
             font-family: 'Space Mono', monospace;
+            text-transform: uppercase;
         }
+
         h1 {
             font-size: 64px;
             line-height: 1.1;
             background: linear-gradient(45deg, #00ff00, #00ffff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            animation: hueRotation 5s infinite linear;
         }
+
         h2 {
             font-size: 48px;
             line-height: 1.2;
             color: #00ff00;
+            position: relative;
         }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background-color: #00ff00;
+            left: 0;
+            bottom: -10px;
+        }
+
         p {
             font-size: 18px;
             margin-bottom: 20px;
             max-width: 600px;
+            line-height: 1.8;
         }
+
+        /* Hero Section */
         .hero {
             text-align: center;
+            background: url('https://your-image-url.jpg') no-repeat center center/cover;
+            position: relative;
         }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 10, 10, 0.7);
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Call to Action Button */
         .cta-button {
             display: inline-block;
             background-color: #00ff00;
@@ -104,38 +164,70 @@
             transition: all 0.3s ease;
             border: 2px solid #00ff00;
         }
+
         .cta-button:hover {
             background-color: transparent;
             color: #00ff00;
         }
+
+        /* Projects Section */
         .projects {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 40px;
             margin-top: 60px;
         }
+
         .project-card {
             background-color: rgba(255, 255, 255, 0.05);
             border-radius: 15px;
             padding: 30px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             border: 1px solid rgba(0, 255, 0, 0.2);
+            position: relative;
+            overflow: hidden;
         }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 0, 0.2), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+        }
+
+        .project-card:hover::before {
+            top: 0;
+            left: 0;
+        }
+
         .project-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 20px 40px rgba(0, 255, 0, 0.1);
         }
+
         .project-card h3 {
             font-size: 24px;
             margin-bottom: 15px;
             color: #00ff00;
         }
+
+        .project-card p {
+            color: #c0c0c0;
+        }
+
+        /* Skills Section */
         .skills {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
             margin-top: 40px;
         }
+
         .skill-tag {
             background-color: rgba(0, 255, 0, 0.1);
             color: #00ff00;
@@ -144,7 +236,15 @@
             font-size: 16px;
             font-family: 'Space Mono', monospace;
             border: 1px solid #00ff00;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
+
+        .skill-tag:hover {
+            background-color: #00ff00;
+            color: #0a0a0a;
+        }
+
+        /* Cube Container */
         #cube-container {
             position: absolute;
             top: 50%;
@@ -153,10 +253,54 @@
             width: 300px;
             height: 300px;
         }
+
+        /* Footer */
+        footer {
+            background-color: #0a0a0a;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        footer p {
+            color: #e0e0e0;
+            font-size: 14px;
+        }
+
+        /* Animations */
+        @keyframes hueRotation {
+            from {
+                filter: hue-rotate(0deg);
+            }
+            to {
+                filter: hue-rotate(360deg);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            #cube-container {
+                display: none;
+            }
+
+            h1 {
+                font-size: 48px;
+            }
+
+            h2 {
+                font-size: 36px;
+            }
+
+            .hero {
+                padding: 80px 0;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Background Animation -->
     <div id="canvas-container"></div>
+
+    <!-- Header -->
     <header>
         <div class="container">
             <nav>
@@ -165,46 +309,62 @@
                     <a href="#about">About</a>
                     <a href="#projects">Projects</a>
                     <a href="#skills">Skills</a>
+                    <a href="#contact">Contact</a>
                 </div>
             </nav>
         </div>
     </header>
+
+    <!-- Main Content -->
     <main>
+        <!-- Hero Section -->
         <section id="home" class="hero">
-            <div class="container">
+            <div class="container" data-aos="fade-up">
                 <h1>Rostin Maafi</h1>
                 <p>Computer Science Innovator | Queen's University</p>
                 <a href="#about" class="cta-button">Explore My World</a>
             </div>
         </section>
+
+        <!-- About Section -->
         <section id="about">
-            <div class="container">
+            <div class="container" data-aos="fade-right">
                 <h2>About Me</h2>
                 <p>As a passionate computer science student at Queen's University, I thrive on pushing the boundaries of technology. My journey is fueled by an insatiable curiosity for software development and artificial intelligence, always seeking to contribute to groundbreaking projects that shape our digital future.</p>
                 <div id="cube-container"></div>
             </div>
         </section>
+
+        <!-- Projects Section -->
         <section id="projects">
-            <div class="container">
+            <div class="container" data-aos="fade-left">
                 <h2>Projects</h2>
                 <div class="projects">
-                    <div class="project-card">
+                    <!-- Project 1 -->
+                    <div class="project-card" data-aos="zoom-in">
                         <h3>Neural Network Visualizer</h3>
                         <p>An interactive 3D visualization tool for complex neural network architectures, making AI more interpretable.</p>
+                        <a href="#" class="cta-button">View Project</a>
                     </div>
-                    <div class="project-card">
+                    <!-- Project 2 -->
+                    <div class="project-card" data-aos="zoom-in" data-aos-delay="100">
                         <h3>Quantum Algorithm Simulator</h3>
                         <p>A cutting-edge simulator for quantum computing algorithms, bridging classical and quantum computation.</p>
+                        <a href="#" class="cta-button">View Project</a>
                     </div>
-                    <div class="project-card">
+                    <!-- Project 3 -->
+                    <div class="project-card" data-aos="zoom-in" data-aos-delay="200">
                         <h3>Eco-Smart City Planner</h3>
                         <p>An AI-driven urban planning tool that optimizes city layouts for sustainability and efficiency.</p>
+                        <a href="#" class="cta-button">View Project</a>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- Skills Section -->
         <section id="skills">
-            <div class="container">
+            <div class="container" data-aos="fade-up">
                 <h2>Skills</h2>
                 <div class="skills">
                     <span class="skill-tag">Machine Learning</span>
@@ -217,11 +377,45 @@
                     <span class="skill-tag">C++</span>
                     <span class="skill-tag">React</span>
                     <span class="skill-tag">Node.js</span>
+                    <!-- Add more skills -->
+                    <span class="skill-tag">TensorFlow</span>
+                    <span class="skill-tag">PyTorch</span>
+                    <span class="skill-tag">Docker</span>
+                    <span class="skill-tag">Git</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="container" data-aos="fade-right">
+                <h2>Contact Me</h2>
+                <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions. Feel free to reach out through any of the platforms below:</p>
+                <div class="contact-links">
+                    <a href="mailto:your-email@example.com" class="cta-button">Email Me</a>
+                    <a href="https://www.linkedin.com/in/yourprofile/" target="_blank" class="cta-button">LinkedIn</a>
+                    <a href="https://github.com/yourusername" target="_blank" class="cta-button">GitHub</a>
                 </div>
             </div>
         </section>
     </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Rostin Maafi. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
+        // Initialize AOS (Animate On Scroll)
+        AOS.init({
+            duration: 1000,
+            once: true,
+        });
+
         // Three.js scene setup
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -231,17 +425,20 @@
 
         // Particles
         const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 5000;
+        const particlesCount = 10000;
         const posArray = new Float32Array(particlesCount * 3);
 
         for(let i = 0; i < particlesCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 10;
+            posArray[i] = (Math.random() - 0.5) * 50;
         }
 
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
         const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.005,
-            color: 0x00ff00
+            size: 0.02,
+            color: 0x00ff00,
+            transparent: true,
+            opacity: 0.7,
+            blending: THREE.AdditiveBlending,
         });
 
         const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
@@ -249,11 +446,12 @@
 
         // 3D Cube
         const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
-        const cubeMaterial = new THREE.MeshPhongMaterial({ 
+        const cubeMaterial = new THREE.MeshStandardMaterial({ 
             color: 0x00ff00,
-            transparent: true,
-            opacity: 0.8,
-            wireframe: true
+            metalness: 0.7,
+            roughness: 0.2,
+            emissive: 0x00ff00,
+            emissiveIntensity: 0.5,
         });
         const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
         
@@ -267,23 +465,36 @@
         cubeCamera.position.z = 2;
 
         // Lights
-        const ambientLight = new THREE.AmbientLight(0x404040);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
         scene.add(ambientLight);
         cubeScene.add(ambientLight.clone());
 
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-        directionalLight.position.set(1, 1, 1);
-        scene.add(directionalLight);
-        cubeScene.add(directionalLight.clone());
+        const pointLight = new THREE.PointLight(0xffffff, 1);
+        pointLight.position.set(5, 5, 5);
+        scene.add(pointLight);
+        cubeScene.add(pointLight.clone());
 
-        camera.position.z = 5;
+        camera.position.z = 15;
+
+        // Mouse Interaction
+        let mouseX = 0, mouseY = 0;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX / window.innerWidth) - 0.5;
+            mouseY = (event.clientY / window.innerHeight) - 0.5;
+        });
 
         // Animation loop
         function animate() {
             requestAnimationFrame(animate);
-            particlesMesh.rotation.y += 0.0005;
+
+            particlesMesh.rotation.y += 0.001;
+            particlesMesh.rotation.x = mouseY * 0.5;
+            particlesMesh.rotation.y = mouseX * 0.5;
+
             cube.rotation.x += 0.01;
             cube.rotation.y += 0.01;
+
             renderer.render(scene, camera);
             cubeRenderer.render(cubeScene, cubeCamera);
         }
@@ -291,18 +502,23 @@
 
         // Responsive design
         window.addEventListener('resize', () => {
+            // Update camera aspect ratios
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
+
+            cubeCamera.aspect = 1;
+            cubeCamera.updateProjectionMatrix();
+            cubeRenderer.setSize(300, 300);
         });
 
-        // Smooth scrolling
+        // Smooth scrolling (if needed)
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                // e.preventDefault();
+                // document.querySelector(this.getAttribute('href')).scrollIntoView({
+                //     behavior: 'smooth'
+                // });
             });
         });
     </script>
